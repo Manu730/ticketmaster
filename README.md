@@ -11,6 +11,7 @@ Folder Structure:
         Makefile ==> make commands to test/run/build/generate docker images for Grpc server and client
 
 This App needs to be run under GOPATH/src (App assumes golang is already present)
+
 golang code from protobuf definition is already generated
 
 Makefile commands
