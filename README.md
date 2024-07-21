@@ -16,11 +16,13 @@ golang code from protobuf definition is already generated
 
 Makefile commands
 
+```
+
 To run UT : make test
 
 To run server: make run_server
 
-To run client: make run_client
+To run client: make run_client (to be run on different terminal than server)
 
 To build server: make build_server (builds binary for linux)
 
@@ -32,10 +34,13 @@ To build docker image for client: make build_client_docker
 
 To generate protobuf code from protos: make protoc
 
+```
+
 Sample Run
 
 UT:
 
+```
 ticketmaster % make test                                                            
 go test ./... -v
 ?   	ticketmaster/client	[no test files]
@@ -80,8 +85,12 @@ PASS
 ok  	ticketmaster/server	0.949s
 ticketmaster %
 
+```
+
 **Server Run
 **
+
+```
 
 ticketmaster % make run_server
 cd server && go run server.go
@@ -114,10 +123,12 @@ listening on port 8080
 
  Received request to show ticket allocations
 
+```
 
 **corresponding client run
 **
 
+```
 ticketmaster % make run_client
 cd client && go run client.go
 
@@ -146,7 +157,7 @@ cd client && go run client.go
  Recevied allocation data for section B:  train_number:1  section_details:{name:B  seats:{seat_no:1  is_allocated:true  allocated_to:{first_name:"Manoj"  last_name:"Kumar"  email:"manunero1730@gmail.com"}}  seats:{seat_no:2}  seats:{seat_no:3}  seats:{seat_no:4}  seats:{seat_no:5}  seats:{seat_no:6}  seats:{seat_no:7}  seats:{seat_no:8}  seats:{seat_no:9}  seats:{seat_no:10  is_allocated:true  allocated_to:{first_name:"Manoj"  last_name:"Kumar"  email:"manunero1730@gmail.com"}}  seats:{seat_no:11}  seats:{seat_no:12}  seats:{seat_no:13}  seats:{seat_no:14}  seats:{seat_no:15}  seats:{seat_no:16}  seats:{seat_no:17}  seats:{seat_no:18}  seats:{seat_no:19}  seats:{seat_no:20}  seats:{seat_no:21}  seats:{seat_no:22}  seats:{seat_no:23}  seats:{seat_no:24}  seats:{seat_no:25}  seats:{seat_no:26}  seats:{seat_no:27}  seats:{seat_no:28}  seats:{seat_no:29}  seats:{seat_no:30}  seats:{seat_no:31}  seats:{seat_no:32}  seats:{seat_no:33}  seats:{seat_no:34}  seats:{seat_no:35}  seats:{seat_no:36}  seats:{seat_no:37}  seats:{seat_no:38}  seats:{seat_no:39}  seats:{seat_no:40}  seats:{seat_no:41}  seats:{seat_no:42}  seats:{seat_no:43}  seats:{seat_no:44}  seats:{seat_no:45}  seats:{seat_no:46}  seats:{seat_no:47}  seats:{seat_no:48}  seats:{seat_no:49}  seats:{seat_no:50}}
 ticketmaster % 
 
-
+```
 
 
 
