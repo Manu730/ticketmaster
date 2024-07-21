@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+option go_package = "protogen/golang";
+
+
+
+service TicketMaster {
+
+rpc BookTicket(Receipt) returns (BookTicketOutput) {}
+
+rpc GetReceipt(UserTrainInput) returns (Receipt) {}
+
+rpc ShowAllocations(ShowAllocationInput) returns (ShowAllocationOutput) {}
+
+rpc RemoveUser(UserTrainInput) returns (Empty) {}
+
+rpc ModifyUserAllocation(UserAllocModifyInput) returns (Empty) {}
+
+}
+
+message Empty {
+
+}
+
+enum SectionOrder {
+    A  = 0;
+
+    B  = 1;
+}
+
+message Price {
+   float price = 1;
+
+   string currency = 2; 
+}
+
+message Trip {
+   string source = 1;
+
+   string destination = 2;
+
+}
+
+message User {
+
+    string first_name = 1;
+    
+    string last_name = 2;
+
+    string email = 3;
+}
+
+message Receipt {
+    int64  train_number = 1;
+
+    string from_station = 2;
+  
+    string to_station = 3;
+
+    User   user = 4;
+
+    Price  cost = 5;
+}
+
+message Seat {
+    int64  seat_no = 1;
+    
+    bool   is_allocated = 2;
+
+    User   allocated_to = 3;
+}
+
+message Section {
+
+    SectionOrder name = 1;
+
+    repeated Seat seats = 2;
+}
+
+message Train {
+    int64  number = 1;
+
+    Trip   trip_detail = 2;  
+  
+    repeated Section sections = 3;
+}
+
+message BookTicketOutput {
+    int64  train_number = 1;
+
+    Trip   trip_detail = 2;
+
+    User   traveller = 3;
+
+}
+
+message UserTrainInput {
+    int64 train_number = 1;
+
+    User  user = 2;
+}
+
+message ShowAllocationInput {
+    int64  train_number = 1;
+
+    SectionOrder order = 2;
+}
+
+message ShowAllocationOutput {
+    int64  train_number = 1;
+
+    Section section_details = 2;
+}
+
+message UserAllocModifyInput {
+    UserTrainInput user_train_details = 1;
+    SectionOrder new_section = 2;
+    int64  new_seatno = 3;
+}
