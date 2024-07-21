@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Generate sample train data
 func generateTrainData() []*pb.Train {
 	var trains []*pb.Train
 	tripDetail := &pb.Trip{Source: "London", Destination: "France"}
@@ -32,6 +33,7 @@ func generateTrainData() []*pb.Train {
 	return trains
 }
 
+// Server object
 type ticketMaster struct {
 	pb.UnimplementedTicketMasterServer
 	trains     []*pb.Train
@@ -39,6 +41,7 @@ type ticketMaster struct {
 	bookingMap map[string]*pb.Receipt
 }
 
+// Generate a new server object
 func NewTicketMaster() *ticketMaster {
 	tMaster := &ticketMaster{}
 	tMaster.trains = generateTrainData()
@@ -46,6 +49,7 @@ func NewTicketMaster() *ticketMaster {
 	return tMaster
 }
 
+// API to book ticket for a given user
 func (tm *ticketMaster) BookTicket(ctx context.Context, in *pb.Receipt) (*pb.BookTicketOutput, error) {
 	if in.FromStation == "" {
 		return nil, errors.New("source station cannot be empty")
@@ -56,6 +60,7 @@ func (tm *ticketMaster) BookTicket(ctx context.Context, in *pb.Receipt) (*pb.Boo
 	} else if in.Cost == nil {
 		return nil, errors.New("ticket cost cannot be empty")
 	}
+	fmt.Println("\n\n Received request for ticekt booking for user: ", in.User.Email)
 	tm.lock.Lock()
 	defer tm.lock.Unlock()
 	isSeatAllocated := false
@@ -87,7 +92,9 @@ func (tm *ticketMaster) BookTicket(ctx context.Context, in *pb.Receipt) (*pb.Boo
 	return bookingoutput, nil
 }
 
+// API to get receipt for a given user
 func (tm *ticketMaster) GetReceipt(ctx context.Context, in *pb.UserTrainInput) (*pb.Receipt, error) {
+	fmt.Println("\n\n Received request for receipt for user: ", in.User.Email)
 	tm.lock.Lock()
 	defer tm.lock.Unlock()
 	if _, ok := tm.bookingMap[in.User.Email]; !ok {
@@ -96,7 +103,9 @@ func (tm *ticketMaster) GetReceipt(ctx context.Context, in *pb.UserTrainInput) (
 	return tm.bookingMap[in.User.Email], nil
 }
 
+// API to show allocations for a given section of the train
 func (tm *ticketMaster) ShowAllocations(ctx context.Context, in *pb.ShowAllocationInput) (*pb.ShowAllocationOutput, error) {
+	fmt.Println("\n\n Received request to show ticket allocations")
 	tm.lock.Lock()
 	defer tm.lock.Unlock()
 	for _, train := range tm.trains {
@@ -111,7 +120,9 @@ func (tm *ticketMaster) ShowAllocations(ctx context.Context, in *pb.ShowAllocati
 	return nil, errors.New("section not found")
 }
 
+// API to remove given user from train
 func (tm *ticketMaster) RemoveUser(ctx context.Context, in *pb.UserTrainInput) (*pb.Empty, error) {
+	fmt.Println("\n\n Received request to remove user: ", in.User.Email)
 	tm.lock.Lock()
 	defer tm.lock.Unlock()
 	for _, train := range tm.trains {
@@ -131,7 +142,9 @@ func (tm *ticketMaster) RemoveUser(ctx context.Context, in *pb.UserTrainInput) (
 	return &pb.Empty{}, nil
 }
 
+// API to modify user allocation
 func (tm *ticketMaster) ModifyUserAllocation(ctx context.Context, in *pb.UserAllocModifyInput) (*pb.Empty, error) {
+	fmt.Println("\n\n Received request to modify allocation for user: ", in.UserTrainDetails.User.Email)
 	tm.lock.Lock()
 	defer tm.lock.Unlock()
 	passenger := &pb.User{FirstName: in.UserTrainDetails.User.FirstName, LastName: in.UserTrainDetails.User.LastName, Email: in.UserTrainDetails.User.Email}
