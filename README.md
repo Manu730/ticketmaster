@@ -11,8 +11,25 @@ Folder Structure:
         Makefile ==> make commands to test/run/build/generate docker images for Grpc server and client
 
 This App needs to be run under GOPATH/src (App assumes golang is already present)
-protobuf is already generated
+golang code from protobuf definition is already generated
 
+Makefile commands
+
+To run UT : make test
+
+To run server: make run_server
+
+To run client: make run_client
+
+To build server: make build_server (builds binary for linux)
+
+To build client: make build_client (builds binary for linux)
+
+To build docker image for server: make build_server_docker
+
+To build docker image for client: make build_client_docker
+
+To generate protobuf code from protos: make protoc
 
 Sample Run
 
